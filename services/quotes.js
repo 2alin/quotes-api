@@ -20,7 +20,7 @@ function validateCreate(quoteObj) {
     const error = new Error(messages.join());
     error.statusCode = 400;
 
-    throw Error;
+    throw error;
   }
 }
 
@@ -33,7 +33,7 @@ function create(quoteObj) {
   );
 
   if (!result.changes) {
-    return { message: "Error in creating quote", quoteAdded: null };
+    throw Error("Error in creating quote");
   }
 
   return {
@@ -56,7 +56,31 @@ function getMultiple(page = 1) {
   };
 }
 
+function getSingle(quoteId) {
+  const data = db.query("SELECT * FROM quotes WHERE id=?", [quoteId]);
+  return data[0] || null;
+}
+
+function update(quoteId, quoteObj) {
+  const { quote, author } = quoteObj;
+  const result = db.run(
+    "UPDATE quotes SET quote=@quote , author=@author, created_at=CURRENT_TIMESTAMP WHERE id=@quoteId",
+    { quote, author, quoteId }
+  );
+
+  if (!result.changes) {
+    throw Error("Error in updating quote");
+  }
+
+  return {
+    message: "Quote updated successfully",
+    quoteUpdated: { quote, author },
+  };
+}
+
 export default {
   create,
   getMultiple,
+  getSingle,
+  update,
 };
