@@ -1,7 +1,9 @@
 import fs from "fs";
 import path from "path";
-import { databasePath } from "./utils.js";
 import Database from "better-sqlite3";
+
+import config from "./config.js";
+const { databasePath } = config;
 
 /**
  * Initializing database
