@@ -7,5 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Adilson Sandoval",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^12.5.0",
+    "express": "^5.2.1"
+  }
 }
