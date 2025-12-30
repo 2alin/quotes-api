@@ -8,6 +8,11 @@ function query(sql, params) {
   return db.prepare(sql).all(params);
 }
 
+function run(sql, params) {
+  return db.prepare(sql).run(params);
+}
+
 export default {
   query,
+  run,
 };

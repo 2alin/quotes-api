@@ -3,12 +3,22 @@ import quotes from "../services/quotes.js";
 
 const router = express.Router();
 
-router.get("/", function (req, res, next) {
+router.get("/", (req, res, next) => {
   try {
-    const body = quotes.getMultiple(req.query.page);
-    res.json(body);
+    const result = quotes.getMultiple(req.query.page);
+    res.json(result);
   } catch (err) {
     console.error("[quotes.get] Error while getting quotes", err);
+    next(err);
+  }
+});
+
+router.post("/", (req, res, next) => {
+  try {
+    const result = quotes.create(req.body);
+    res.json(result);
+  } catch (err) {
+    console.error("[quote.set Error while adding quote", err);
     next(err);
   }
 });
