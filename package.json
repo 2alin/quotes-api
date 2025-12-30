@@ -2,8 +2,10 @@
   "name": "quotes-api",
   "version": "1.0.0",
   "description": "A simple API to store and retrieve quotes",
+  "type": "module",
   "main": "index.js",
   "scripts": {
+    "build": "node setup.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Adilson Sandoval",
