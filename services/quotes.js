@@ -49,7 +49,7 @@ function create(quoteObj) {
 
 function getMultiple(page = 1) {
   const offset = (page - 1) * config.itemsPerPage;
-  const data = db.query("SELECT * FROM quotes LIMIT ?,?", [
+  const data = db.query("SELECT quote, author, id FROM quotes LIMIT ?,?", [
     offset,
     config.itemsPerPage,
   ]);
@@ -62,7 +62,7 @@ function getMultiple(page = 1) {
 }
 
 function getSingle(quoteId) {
-  const data = db.query("SELECT * FROM quotes WHERE id=?", [quoteId]);
+  const data = db.query("SELECT quote, author, id FROM quotes WHERE id=?", [quoteId]);
   return data[0] || null;
 }
 
