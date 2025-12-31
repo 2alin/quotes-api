@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Get quotes</title>
+    <style>
+      p {
+        margin: 0;
+      }
+      li {
+        margin: 1rem 0;
+      }
+      footer {
+        margin: 1rem 0;
+      }
+    </style>
   </head>
   <body>
     <h1>Get multiple quotes per page</h1>
@@ -38,11 +49,17 @@
 
         const listElement = document.getElementById("quotes-list");
         listElement.innerHTML = "";
-        for (const { quote, author } of currentQuotes) {
+        for (const { quote, author, id } of currentQuotes) {
           const listItem = document.createElement("li");
-          const paragraphItem = document.createElement("p");
-          paragraphItem.textContent = `"${quote}" by ${author}`;
-          listItem.appendChild(paragraphItem);
+          const quoteLine = document.createElement("p");
+          quoteLine.textContent = `"${quote}"`;
+          const authorLine = document.createElement("p");
+          authorLine.textContent = `by ${author}`;
+          const idLine = document.createElement("p");
+          idLine.textContent = `id: ${id}`;
+          listItem.appendChild(quoteLine);
+          listItem.appendChild(authorLine);
+          listItem.appendChild(idLine);
           listElement.appendChild(listItem);
         }
       }
