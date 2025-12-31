@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get quotes</title>
+  </head>
+  <body>
+    <h1>Get multiple quotes per page</h1>
+    <ul id="quotes-list"></ul>
+    <footer>
+      page: <span id="page-display"></span>
+      <button id="prev-button">previous</button>
+      <button id="next-button">next</button>
+    </footer>
+    <script>
+      let currentPage = 1;
+      let currentQuotes;
+
+      const serverUrl = new URL(
+        window.location.pathname.replace("public/get-quotes.html", ""),
+        window.location.origin
+      );
+      console.log(serverUrl);
+
+      async function getQuotes() {
+        const request = new Request(serverUrl + `quotes?page=${currentPage}`, {
+          method: "GET",
+        });
+
+        const result = await fetch(request);
+        return result;
+      }
+
+      async function updateList() {
+        const result = await getQuotes();
+        const json = await result.json();
+        currentQuotes = json.data;
+
+        const listElement = document.getElementById("quotes-list");
+        listElement.innerHTML = "";
+        for (const { quote, author } of currentQuotes) {
+          const listItem = document.createElement("li");
+          const paragraphItem = document.createElement("p");
+          paragraphItem.textContent = `"${quote}" by ${author}`;
+          listItem.appendChild(paragraphItem);
+          listElement.appendChild(listItem);
+        }
+      }
+      updateList();
+
+      /**
+       * Handling paging
+       */
+
+      const prevButton = document.getElementById("prev-button");
+      const nextButton = document.getElementById("next-button");
+      const pageDisplay = document.getElementById("page-display");
+
+      pageDisplay.textContent = currentPage;
+
+      prevButton.addEventListener("click", () => {
+        if (currentPage <= 1) {
+          console.log("Already at the first page");
+          return;
+        }
+
+        currentPage--;
+        pageDisplay.textContent = currentPage;
+        updateList();
+      });
+
+      nextButton.addEventListener("click", () => {
+        if(currentQuotes.length === 0) {
+          console.log("Already reached the end")
+          return;
+        }
+        currentPage++;
+        pageDisplay.textContent = currentPage;
+        updateList();
+      });
+    </script>
+  </body>
+</html>

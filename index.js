@@ -1,8 +1,9 @@
 import express from "express";
+import config from "./config.js";
 import quotesRouter from "./routes/quotes.js";
 
 const app = express();
-const port = 3000 || process.env.PORT;
+const { port } = config;
 
 function logger(req, res, next) {
   console.log(`[${new Date()}] Request received`, {
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/quotes", quotesRouter);
+app.use("/public", express.static("public"));
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
