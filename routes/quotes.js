@@ -19,8 +19,8 @@ router.post("/", (req, res, next) => {
     const result = quotes.create(req.body);
     res.json(result);
   } catch (err) {
-    const errorMessage = "[quote.set] Error while adding quote.";
-    console.error(errorMessage, err.message);
+    const errorMessage = "[quote.set] Error while adding quote. " + err.message;
+    console.error(errorMessage);
     res.status(400).json({ error: errorMessage });
   }
 });
@@ -40,8 +40,9 @@ router.put("/:quoteId", (req, res, next) => {
     const result = quotes.update(req.params.quoteId, updateQuote);
     res.json(result);
   } catch (err) {
-    const errorMessage = "[quote.update] Error while updating quote.";
-    console.error(errorMessage, err.message);
+    const errorMessage =
+      "[quote.update] Error while updating quote. " + err.message;
+    console.error(errorMessage);
     res.status(400).json({ error: errorMessage });
   }
 });

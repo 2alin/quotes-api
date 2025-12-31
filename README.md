@@ -41,8 +41,8 @@ Adds a new quote to the server.
 
 #### Request body schema
 
-- `quote`: The quote content. Required value. String type.
-- `author`: The quote author. Required value. String type.
+- `quote`: The quote content. Required value. Should be unique. String type. Maximum length is 1000 characters.
+- `author`: The quote author. Required value. String type. Maximum length is 200 characters.
 
 #### Responses
 
@@ -63,8 +63,8 @@ Updates the content of the quote in the server.
 
 #### Request body schema
 
-- `quote`: The quote content. Optional value. String type.
-- `author`: The quote author. Optional value. String type.
+- `quote`: The quote content. Optional value. Should be unique. String type. Maximum length is 1000 characters.
+- `author`: The quote author. Optional value. String type. Maximum length is 200 characters.
 
 #### Responses
 

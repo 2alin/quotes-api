@@ -34,11 +34,11 @@
     <form action="" method="POST" id="form">
       <p class="row">
         <label for="quote">Quote: </label>
-        <textarea name="quote" id="quote"></textarea>
+        <textarea name="quote" id="quote" maxlength="1000" required></textarea>
       </p>
       <p class="row">
         <label for="author">Author: </label>
-        <input type="text" name="author" id="author" required />
+        <input type="text" name="author" id="author" maxlength="200" required />
       </p>
       <p class="row submit">
         <input type="submit" value="Submit" />

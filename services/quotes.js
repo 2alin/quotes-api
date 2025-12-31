@@ -5,22 +5,27 @@ function validateCreate(quoteObj) {
   const messages = [];
 
   if (!quoteObj) {
-    messages.push("No quote object is provided");
+    messages.push("No quote object is provided.");
   }
 
   if (!quoteObj.quote) {
-    messages.push("Quote is empty");
+    messages.push("Quote is empty.");
   }
 
   if (!quoteObj.author) {
-    messages.push("Author is empty");
+    messages.push("Author is empty.");
+  }
+
+  if (quoteObj.quote && quoteObj.quote.length > 1000) {
+    messages.push("Quote is too long, maximum length is 1000.");
+  }
+
+  if (quoteObj.author && quoteObj.author.length > 200) {
+    messages.push("Author is too long, maximum length is 200.");
   }
 
   if (messages.length > 0) {
-    const error = new Error(messages.join());
-    error.statusCode = 400;
-
-    throw error;
+    throw Error(messages.join(" "));
   }
 }
 
@@ -62,7 +67,14 @@ function getSingle(quoteId) {
 }
 
 function update(quoteId, quoteObj) {
+  if (!quoteId) {
+    throw Error("No quote ID is provided.");
+  }
+
+  validateCreate(quoteObj);
+
   const { quote, author } = quoteObj;
+
   const result = db.run(
     "UPDATE quotes SET quote=@quote , author=@author, created_at=CURRENT_TIMESTAMP WHERE id=@quoteId",
     { quote, author, quoteId }
