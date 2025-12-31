@@ -31,6 +31,19 @@ Retrieves an amount of quotes that is specified by the value `itemsPerPage` (`10
 - `200`- JSON schema: `{data: Quote[], meta: {page: string}}`
 - `400` - JSON schema: `{error: string}`
 
+### `GET /quotes/:quoteId`
+
+Gets the quote with given ID from the server.
+
+#### Path parameters
+
+- `quoteId`: The ID of the quote
+
+#### Responses
+
+- `200` - JSON schema: `{data: Quote}`
+- `400` - JSON schema: `{error: string}`
+
 ### `POST /quote`
 
 Adds a new quote to the server.

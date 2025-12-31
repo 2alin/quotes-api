@@ -8,8 +8,8 @@ router.get("/", (req, res) => {
     const result = quotes.getMultiple(req.query.page);
     res.json(result);
   } catch (err) {
-    const errorMessage = "[quotes.get] Error while getting quotes.";
-    console.error(errorMessage, err.message);
+    const errorMessage = `[quotes.get] Error while getting quotes. ${err.message}`;
+    console.error(errorMessage);
     res.status(400).json({ error: errorMessage });
   }
 });
@@ -25,11 +25,25 @@ router.post("/", (req, res) => {
   }
 });
 
+router.get("/:quoteId", (req, res) => {
+  try {
+    const quote = quotes.getSingle(req.params.quoteId);
+    if (!quote) {
+      throw new Error("No quote with the given ID found.");
+    }
+    res.json({ data: quote });
+  } catch (err) {
+    const errorMessage = `[quotes.get] Error while getting quote. ${err.message}`;
+    console.error(errorMessage);
+    res.status(400).json({ error: errorMessage });
+  }
+});
+
 router.put("/:quoteId", (req, res) => {
   try {
     const storedQuote = quotes.getSingle(req.params.quoteId);
     if (!storedQuote) {
-      throw new Error("Quote ID to update doesn't exist");
+      throw new Error("Quote ID to update doesn't exist.");
     }
 
     const updateQuote = {
