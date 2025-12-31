@@ -3,7 +3,7 @@ import quotes from "../services/quotes.js";
 
 const router = express.Router();
 
-router.get("/", (req, res, next) => {
+router.get("/", (req, res) => {
   try {
     const result = quotes.getMultiple(req.query.page);
     res.json(result);
@@ -14,7 +14,7 @@ router.get("/", (req, res, next) => {
   }
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", (req, res) => {
   try {
     const result = quotes.create(req.body);
     res.json(result);
@@ -25,7 +25,7 @@ router.post("/", (req, res, next) => {
   }
 });
 
-router.put("/:quoteId", (req, res, next) => {
+router.put("/:quoteId", (req, res) => {
   try {
     const storedQuote = quotes.getSingle(req.params.quoteId);
     if (!storedQuote) {
@@ -42,6 +42,18 @@ router.put("/:quoteId", (req, res, next) => {
   } catch (err) {
     const errorMessage =
       "[quote.update] Error while updating quote. " + err.message;
+    console.error(errorMessage);
+    res.status(400).json({ error: errorMessage });
+  }
+});
+
+router.delete("/:quoteId", (req, res) => {
+  try {
+    const result = quotes.remove(req.params.quoteId);
+    res.json(result);
+  } catch (err) {
+    const errorMessage =
+      "[quote.delete] Error while deleting quote. " + err.message;
     console.error(errorMessage);
     res.status(400).json({ error: errorMessage });
   }

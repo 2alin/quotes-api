@@ -71,6 +71,20 @@ Updates the content of the quote in the server.
 - `200` - JSON schema: `{message: string, quoteUpdated: Quote}`
 - `400` - JSON schema: `{error: string}`
 
+### `DELETE /quotes/:quoteId`
+
+Removes the quote with given ID from the server.
+
+#### Path parameters
+
+- `quoteId`: The ID of the quote to remove
+
+#### Responses
+
+- `200` - JSON schema: `{message: string, quoteId: string}`
+- `400` - JSON schema: `{error: string}`
+
+
 ## Server pages
 
 The server exposes the following pages that helps to interact with itself:

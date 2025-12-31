@@ -66,6 +66,27 @@ function getSingle(quoteId) {
   return data[0] || null;
 }
 
+function remove(quoteId) {
+  if (!quoteId) {
+    throw Error("No quote ID is provided.");
+  }
+
+  if (!getSingle(quoteId)) {
+    throw Error("No quote found to be removed");
+  }
+
+  const result = db.run("DELETE FROM quotes WHERE id=?", [quoteId]);
+
+  if (!result.changes) {
+    throw Error("Error in updating quote");
+  }
+
+  return {
+    message: "Quote removed successfully",
+    quoteId,
+  };
+}
+
 function update(quoteId, quoteObj) {
   if (!quoteId) {
     throw Error("No quote ID is provided.");
@@ -94,5 +115,6 @@ export default {
   create,
   getMultiple,
   getSingle,
+  remove,
   update,
 };
