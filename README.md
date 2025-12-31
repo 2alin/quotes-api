@@ -13,3 +13,7 @@ We need the following:
 
 - Run `npm i` to install dependencies
 - Run `npm run build` to setup the project
+
+## Acknowledgements
+
+- The initial work on this project was based on https://github.com/geshan/nodejs-sqlite. Thank you.
