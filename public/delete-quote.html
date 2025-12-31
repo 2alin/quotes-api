@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delete quote</title>
+  </head>
+  <style>
+    #quote-id {
+      width: 80px;
+    }
+  </style>
+  <body>
+    <h1>Delete quote</h1>
+    <form action="" id="form">
+      <label for="quote-id">Quote ID:</label>
+      <input type="number" id="quote-id" required />
+      <input type="submit" value="Delete quote" />
+    </form>
+    <p id="display-response"></p>
+
+    <script>
+      const serverUrl = new URL(
+        window.location.pathname.replace("public/delete-quote.html", ""),
+        window.location.origin
+      );
+
+      const displayResponse = document.getElementById("display-response");
+      const formElement = document.getElementById("form");
+
+      formElement.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const request = new Request(
+          serverUrl + `quotes/${formElement["quote-id"].value}`,
+          {
+            method: "DELETE",
+          }
+        );
+
+        try {
+          const result = await fetch(request);
+          const json = await result.json();
+          displayResponse.textContent = JSON.stringify(json);
+        } catch (err) {
+          displayResponse.textContent = err;
+        }
+      });
+    </script>
+  </body>
+</html>
