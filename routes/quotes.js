@@ -25,6 +25,20 @@ router.post("/", (req, res) => {
   }
 });
 
+router.get("/random", (req, res) => {
+  try {
+    const quote = quotes.getRandom();
+    if (!quote) {
+      throw new Error("Server doesn't have quotes yet.");
+    }
+    res.json({ data: quote });
+  } catch (err) {
+    const errorMessage = `[quote.getRandom] Error while getting quote. ${err.message}`;
+    console.error(errorMessage);
+    res.status(400).json({ error: errorMessage });
+  }
+});
+
 router.get("/:quoteId", (req, res) => {
   try {
     const quote = quotes.getSingle(req.params.quoteId);
@@ -33,7 +47,7 @@ router.get("/:quoteId", (req, res) => {
     }
     res.json({ data: quote });
   } catch (err) {
-    const errorMessage = `[quotes.get] Error while getting quote. ${err.message}`;
+    const errorMessage = `[quote.get] Error while getting quote. ${err.message}`;
     console.error(errorMessage);
     res.status(400).json({ error: errorMessage });
   }

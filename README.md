@@ -31,6 +31,15 @@ Retrieves an amount of quotes that is specified by the value `itemsPerPage` (`10
 - `200`- JSON schema: `{data: Quote[], meta: {page: string}}`
 - `400` - JSON schema: `{error: string}`
 
+### `GET /quotes/random`
+
+Gets a random quote from the server.
+
+#### Responses
+
+- `200` - JSON schema: `{data: Quote}`
+- `400` - JSON schema: `{error: string}`
+
 ### `GET /quotes/:quoteId`
 
 Gets the quote with given ID from the server.
@@ -96,7 +105,6 @@ Removes the quote with given ID from the server.
 
 - `200` - JSON schema: `{message: string, quoteId: string}`
 - `400` - JSON schema: `{error: string}`
-
 
 ## Server pages
 

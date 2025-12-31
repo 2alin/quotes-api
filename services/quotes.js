@@ -61,8 +61,20 @@ function getMultiple(page = 1) {
   };
 }
 
+function getRandom() {
+  const data = db.query(
+    `SELECT quote, author, id FROM quotes 
+     WHERE rowid > ( ABS(RANDOM()) % (SELECT max(rowid) FROM quotes) )
+     LIMIT 1`,
+    []
+  );
+  return data[0] || null;
+}
+
 function getSingle(quoteId) {
-  const data = db.query("SELECT quote, author, id FROM quotes WHERE id=?", [quoteId]);
+  const data = db.query("SELECT quote, author, id FROM quotes WHERE id=?", [
+    quoteId,
+  ]);
   return data[0] || null;
 }
 
@@ -114,6 +126,7 @@ function update(quoteId, quoteObj) {
 export default {
   create,
   getMultiple,
+  getRandom,
   getSingle,
   remove,
   update,
