@@ -1,7 +1,7 @@
 {
-  "name": "quotes-api",
+  "name": "quotes-server",
   "version": "1.0.0",
-  "description": "A simple API to store and retrieve quotes",
+  "description": "A simple server to store and retrieve quotes",
   "type": "module",
   "main": "index.js",
   "scripts": {
