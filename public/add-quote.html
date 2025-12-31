@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add quote</title>
+  </head>
+  <style>
+    #form {
+      width: 500px;
+    }
+    .row {
+      display: flex;
+    }
+    .row.submit {
+      justify-content: end;
+    }
+    #author {
+      width: 100%;
+    }
+    #quote {
+      width: 100%;
+      height: 100px;
+    }
+    label {
+      display: inline-block;
+      width: 100px;
+      padding: 0 0.5rem;
+      text-align: end;
+    }
+  </style>
+  <body>
+    <h1>Add quote</h1>
+    <form action="" method="POST" id="form">
+      <p class="row">
+        <label for="quote">Quote: </label>
+        <textarea name="quote" id="quote"></textarea>
+      </p>
+      <p class="row">
+        <label for="author">Author: </label>
+        <input type="text" name="author" id="author" required />
+      </p>
+      <p class="row submit">
+        <input type="submit" value="Submit" />
+      </p>
+    </form>
+    <code id="display-response"></code>
+    <script>
+      const serverUrl = new URL(
+        window.location.pathname.replace("public/add-quote.html", ""),
+        window.location.origin
+      );
+
+      const displayResponse = document.getElementById("display-response");
+      const formElement = document.getElementById("form");
+      formElement.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const request = new Request(serverUrl + `quotes`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            quote: formElement.quote.value.trim(),
+            author: formElement.author.value.trim(),
+          }),
+        });
+
+        try {
+          const result = await fetch(request);
+          const json = await result.json();
+          displayResponse.textContent = JSON.stringify(json);
+        } catch (err) {
+          displayResponse.textContent = err;
+        }
+      });
+    </script>
+  </body>
+</html>

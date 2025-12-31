@@ -21,7 +21,6 @@
         window.location.pathname.replace("public/get-quotes.html", ""),
         window.location.origin
       );
-      console.log(serverUrl);
 
       async function getQuotes() {
         const request = new Request(serverUrl + `quotes?page=${currentPage}`, {
@@ -71,8 +70,8 @@
       });
 
       nextButton.addEventListener("click", () => {
-        if(currentQuotes.length === 0) {
-          console.log("Already reached the end")
+        if (currentQuotes.length === 0) {
+          console.log("Already reached the end");
           return;
         }
         currentPage++;
