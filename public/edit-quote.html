@@ -34,6 +34,15 @@
   </head>
   <body>
     <h1>Edit quote</h1>
+
+    <iframe
+      src="./auth.html"
+      frameborder="1"
+      width="100%"
+      height="250px"
+      id="auth-iframe"
+    ></iframe>
+
     <form action="" id="get-quote-form">
       <label for="quote-id">Quote ID:</label>
       <input type="number" id="quote-id" required />
@@ -58,6 +67,32 @@
     </footer>
 
     <script>
+      /**
+       * Handling Authentication
+       */
+      const credentials = {
+        username: "",
+        password: "",
+        userToken: "",
+      };
+
+      const authIframe = document.getElementById("auth-iframe");
+      window.addEventListener("message", (event) => {
+        const { credentials: eventCredentials } = event.data;
+
+        if (!eventCredentials) {
+          returm;
+        }
+
+        credentials.username = eventCredentials.username;
+        credentials.password = eventCredentials.password;
+        credentials.userToken = eventCredentials.userToken;
+      });
+
+      /**
+       * Handling Edit Quote
+       */
+
       const serverUrl = new URL(
         window.location.pathname.replace("public/edit-quote.html", ""),
         window.location.origin
@@ -70,10 +105,22 @@
       getQuoteForm.addEventListener("submit", async () => {
         event.preventDefault();
 
+        const headers = new Headers();
+
+        if (credentials.username && credentials.password) {
+          headers.set(
+            "Authorization",
+            "Basic " + btoa(`${credentials.username}:${credentials.password}`)
+          );
+        } else if (credentials.userToken) {
+          headers.set("api-token", credentials.userToken);
+        }
+
         const request = new Request(
           serverUrl + `quotes/${getQuoteForm["quote-id"].value}`,
           {
             method: "GET",
+            headers,
           }
         );
 
@@ -99,14 +146,25 @@
       updateQuoteForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
+        const headers = new Headers();
+
+        headers.set("Accept", "application/json");
+        headers.set("Content-type", "application/json");
+
+        if (credentials.username && credentials.password) {
+          headers.set(
+            "Authorization",
+            "Basic " + btoa(`${credentials.username}:${credentials.password}`)
+          );
+        } else if (credentials.userToken) {
+          headers.set("api-token", credentials.userToken);
+        }
+
         const request = new Request(
           serverUrl + `quotes/${getQuoteForm["quote-id"].value}`,
           {
             method: "PUT",
-            headers: {
-              Accept: "application/json",
-              "Content-type": "application/json",
-            },
+            headers,
             body: JSON.stringify({
               quote: updateQuoteForm.quote.value.trim(),
               author: updateQuoteForm.author.value.trim(),

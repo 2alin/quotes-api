@@ -1,9 +1,12 @@
 import express from "express";
+import middleware from "../middleware.js";
 import quotes from "../services/quotes.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
+const { isAdmin, isUser } = middleware;
+
+router.get("/", isUser, (req, res) => {
   try {
     const result = quotes.getMultiple(req.query.page);
     res.json(result);
@@ -14,7 +17,7 @@ router.get("/", (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
+router.post("/", isAdmin, (req, res) => {
   try {
     const result = quotes.create(req.body);
     res.json(result);
@@ -25,7 +28,7 @@ router.post("/", (req, res) => {
   }
 });
 
-router.get("/random", (req, res) => {
+router.get("/random", isUser, (req, res) => {
   try {
     const quote = quotes.getRandom();
     if (!quote) {
@@ -39,7 +42,7 @@ router.get("/random", (req, res) => {
   }
 });
 
-router.get("/:quoteId", (req, res) => {
+router.get("/:quoteId", isUser, (req, res) => {
   try {
     const quote = quotes.getSingle(req.params.quoteId);
     if (!quote) {
@@ -53,7 +56,7 @@ router.get("/:quoteId", (req, res) => {
   }
 });
 
-router.put("/:quoteId", (req, res) => {
+router.put("/:quoteId", isAdmin, (req, res) => {
   try {
     const storedQuote = quotes.getSingle(req.params.quoteId);
     if (!storedQuote) {
@@ -75,7 +78,7 @@ router.put("/:quoteId", (req, res) => {
   }
 });
 
-router.delete("/:quoteId", (req, res) => {
+router.delete("/:quoteId", isAdmin, (req, res) => {
   try {
     const result = quotes.remove(req.params.quoteId);
     res.json(result);

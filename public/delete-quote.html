@@ -12,6 +12,15 @@
   </style>
   <body>
     <h1>Delete quote</h1>
+
+    <iframe
+      src="./auth.html"
+      frameborder="1"
+      width="100%"
+      height="250px"
+      id="auth-iframe"
+    ></iframe>
+
     <form action="" id="form">
       <label for="quote-id">Quote ID:</label>
       <input type="number" id="quote-id" required />
@@ -20,6 +29,33 @@
     <p id="display-response"></p>
 
     <script>
+      /**
+       * Handling Authentication
+       */
+
+      const credentials = {
+        username: "",
+        password: "",
+        userToken: "",
+      };
+
+      const authIframe = document.getElementById("auth-iframe");
+      window.addEventListener("message", (event) => {
+        const { credentials: eventCredentials } = event.data;
+
+        if (!eventCredentials) {
+          returm;
+        }
+
+        credentials.username = eventCredentials.username;
+        credentials.password = eventCredentials.password;
+        credentials.userToken = eventCredentials.userToken;
+      });
+
+      /**
+       * Handling Delete quote
+       */
+
       const serverUrl = new URL(
         window.location.pathname.replace("public/delete-quote.html", ""),
         window.location.origin
@@ -31,10 +67,22 @@
       formElement.addEventListener("submit", async (event) => {
         event.preventDefault();
 
+        const headers = new Headers();
+
+        if (credentials.username && credentials.password) {
+          headers.set(
+            "Authorization",
+            "Basic " + btoa(`${credentials.username}:${credentials.password}`)
+          );
+        } else if (credentials.userToken) {
+          headers.set("api-token", credentials.userToken);
+        }
+
         const request = new Request(
           serverUrl + `quotes/${formElement["quote-id"].value}`,
           {
             method: "DELETE",
+            headers,
           }
         );
 
