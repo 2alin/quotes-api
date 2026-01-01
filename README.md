@@ -15,7 +15,7 @@ We need the following:
 
 - Run `npm i` to install dependencies
 - Run `npm run build` to setup the project (database)
-- Run `npm run create-auth` to create credentials for administrator and user. See bellow for updating credentials.
+- Run `npm run create-auth` to set credentials for administrator (required). See bellow for updating credentials.
 
 ### Authentication Credentials
 
@@ -37,6 +37,12 @@ Retrieves an amount of quotes that is specified by the value `itemsPerPage` (`10
 
 - `page`: The starting point from where to retrieve quotes. Pagination starts with `1`.
 
+### Header parameters
+
+- Authorization by either any of the following:
+  - `Authorization: Basic [username]:[password]` (administrator)
+  - `api-token: [user-api-token]` (user)
+
 #### Responses
 
 - `200`- JSON schema: `{data: Quote[], meta: {page: string}}`
@@ -45,6 +51,12 @@ Retrieves an amount of quotes that is specified by the value `itemsPerPage` (`10
 ### `GET /quotes/random`
 
 Gets a random quote from the server.
+
+### Header parameters
+
+- Authorization by either any of the following:
+  - `Authorization: Basic [username]:[password]` (administrator)
+  - `api-token: [user-api-token]` (user)
 
 #### Responses
 
@@ -59,6 +71,12 @@ Gets the quote with given ID from the server.
 
 - `quoteId`: The ID of the quote
 
+### Header parameters
+
+- Authorization by either any of the following:
+  - `Authorization: Basic [username]:[password]` (administrator)
+  - `api-token: [user-api-token]` (user)
+
 #### Responses
 
 - `200` - JSON schema: `{data: Quote}`
@@ -71,6 +89,7 @@ Adds a new quote to the server.
 ### Header parameters
 
 - `Content-Type: application/json`
+- `Authorization: Basic [username]:[password]` (administrator)
 
 #### Request body schema
 
@@ -93,6 +112,7 @@ Updates the content of the quote in the server.
 ### Header parameters
 
 - `Content-Type: application/json`
+- `Authorization: Basic [username]:[password]` (administrator)
 
 #### Request body schema
 
@@ -112,6 +132,10 @@ Removes the quote with given ID from the server.
 
 - `quoteId`: The ID of the quote to remove
 
+### Header parameters
+
+- `Authorization: Basic [username]:[password]` (administrator)
+
 #### Responses
 
 - `200` - JSON schema: `{message: string, quoteId: string}`
@@ -119,10 +143,12 @@ Removes the quote with given ID from the server.
 
 ## Server pages
 
-The server exposes the following pages that helps to interact with itself:
+The server exposes the following basic pages that helps to interact with server data:
 
 - `public/get-quotes.html`: To get a list of quotes per page.
-- `public/add-quote.html`: To add a quote to the server.
+- `public/add-quote.html`: To add a quote.
+- `public/edit-quote.html`: To edit a quote.
+- `public/delete-quote.html`: To delete a quote.
 
 ## Acknowledgements
 
