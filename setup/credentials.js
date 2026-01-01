@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import fs from "fs";
+import process from "process";
 import * as readlineSync from "readline-sync";
 
 import config from "../config.js";
@@ -42,7 +43,7 @@ function addUserCredentials() {
   console.log("===== USER CREDENTIALS =====");
   const userToken = readlineSync.question("User token to add: ");
 
-  credentials.user.tokens.push(bcrypt.hashSync(userToken, hashSaltRounds));
+  credentials.user.tokens.push(userToken);
 
   fs.writeFileSync(credentialsPath, JSON.stringify(credentials, null, "  "));
 }
@@ -53,4 +54,17 @@ function initialize() {
   addUserCredentials();
 }
 
-initialize();
+const parameter =
+  process.argv.slice(2).find((item) => item.startsWith("--")) || "";
+const flag = parameter.slice(2);
+
+switch (flag) {
+  case "admin":
+    setAdminCredentials();
+    break;
+  case "user":
+    addUserCredentials();
+    break;
+  default:
+    initialize();
+}

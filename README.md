@@ -11,11 +11,21 @@ We need the following:
 - Node 22.21+
 - SQLite 3
 
-### Instructions
+### Project setup
 
 - Run `npm i` to install dependencies
-- Run `npm run build` to setup the project
-- Run `npm run create-auth` to create credentials for administrator and user
+- Run `npm run build` to setup the project (database)
+- Run `npm run create-auth` to create credentials for administrator and user. See bellow for updating credentials.
+
+### Authentication Credentials
+
+The script `setup/credentials.js` offers the following options:
+
+- `node setup/credentials.js` will clear current credentials and prompt for new username and password for the Admin user and new User Token.
+- `node setup/credentials.js --admin` will prompt for Admin credentials and update the stored ones.
+- `node setup/credentials.js --user` will prompt for a new User Token to add to the stored ones.
+
+Note: Administrator password is hashed before being stored locally.
 
 ## Server APIs
 
