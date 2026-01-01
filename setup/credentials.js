@@ -1,10 +1,13 @@
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import fs from "fs";
 import process from "process";
 import * as readlineSync from "readline-sync";
 
 import config from "../config.js";
 const { credentialsPath, hashSaltRounds } = config;
+
+import utils from "../utils.js";
 
 function initCredentialsFile() {
   const credentials = {
@@ -21,10 +24,21 @@ function initCredentialsFile() {
 }
 
 function setAdminCredentials() {
-  const file = fs.readFileSync(credentialsPath);
-  const credentials = JSON.parse(file);
-
   console.log("===== ADMIN CREDENTIALS =====");
+  let credentials;
+
+  try {
+    const file = fs.readFileSync(credentialsPath);
+    credentials = JSON.parse(file);
+  } catch (err) {
+    console.error(
+      "[credentials.admin] Problem while accessing credentials file. " +
+        "Try initializing credentials first: `node setup/credentials.js`.",
+      err
+    );
+    return;
+  }
+
   const username = readlineSync.question("Admin new username: ");
   const password = readlineSync.question("Admin new password: ", {
     hideEchoBack: true,
@@ -36,22 +50,42 @@ function setAdminCredentials() {
   fs.writeFileSync(credentialsPath, JSON.stringify(credentials, null, "  "));
 }
 
-function addUserCredentials() {
-  const file = fs.readFileSync(credentialsPath);
-  const credentials = JSON.parse(file);
+function createNewUserToken() {
+  console.log("===== ADDING NEW USER TOKEN =====");
+  let credentials;
 
-  console.log("===== USER CREDENTIALS =====");
-  const userToken = readlineSync.question("User token to add: ");
+  try {
+    const file = fs.readFileSync(credentialsPath);
+    credentials = JSON.parse(file);
+  } catch (err) {
+    console.error(
+      "[credentials.user] Problem while accessing credentials file. " +
+        "Try initializing credentials first: `node setup/credentials.js`.",
+      err
+    );
+    return;
+  }
 
-  credentials.user.tokens.push(userToken);
+  const token = crypto.randomBytes(config.userTokenLength).toString("hex");
+  const expirationInMs =
+    Date.now() + config.userTokenExpirationDays * utils.dayInMs;
+  const expiration = new Date(expirationInMs);
+  const tokenObj = { token, expiration };
+
+  credentials.user.tokens.push(tokenObj);
+
+  console.log("New Token User has been added: ", tokenObj);
 
   fs.writeFileSync(credentialsPath, JSON.stringify(credentials, null, "  "));
 }
 
 function initialize() {
+  console.log("===== INITIALIZING CREDENTIALS =====");
+
   initCredentialsFile();
   setAdminCredentials();
-  addUserCredentials();
+
+  console.log("Credentials file has been created at: ", credentialsPath);
 }
 
 const parameter =
@@ -63,7 +97,7 @@ switch (flag) {
     setAdminCredentials();
     break;
   case "user":
-    addUserCredentials();
+    createNewUserToken();
     break;
   default:
     initialize();

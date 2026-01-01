@@ -9,6 +9,8 @@ const config = {
   hashSaltRounds: 10,
   itemsPerPage: process.env.ITEMS_PER_PAGE || 10,
   port: 3000 || process.env.PORT,
+  userTokenExpirationDays: 180,
+  userTokenLength: 64,
 };
 
 export default config;
