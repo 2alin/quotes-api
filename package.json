@@ -5,14 +5,17 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "build": "node setup.js",
+    "build": "node setup/database.js",
+    "create-auth": "node setup/credentials.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Adilson Sandoval",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "better-sqlite3": "^12.5.0",
     "cors": "^2.8.5",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "readline-sync": "^1.4.10"
   }
 }

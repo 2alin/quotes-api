@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import Database from "better-sqlite3";
 
-import config from "./config.js";
+import config from "../config.js";
 const { databasePath } = config;
 
 /**

@@ -15,6 +15,7 @@ We need the following:
 
 - Run `npm i` to install dependencies
 - Run `npm run build` to setup the project
+- Run `npm run create-auth` to create credentials for administrator and user
 
 ## Server APIs
 
