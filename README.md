@@ -37,7 +37,7 @@ Retrieves an amount of quotes that is specified by the value `itemsPerPage` (`10
 
 - `page`: The starting point from where to retrieve quotes. Pagination starts with `1`.
 
-### Header parameters
+#### Header parameters
 
 - Authorization by either any of the following:
   - `Authorization: Basic [username]:[password]` (administrator)
@@ -52,7 +52,7 @@ Retrieves an amount of quotes that is specified by the value `itemsPerPage` (`10
 
 Gets a random quote from the server.
 
-### Header parameters
+#### Header parameters
 
 - Authorization by either any of the following:
   - `Authorization: Basic [username]:[password]` (administrator)
@@ -71,7 +71,7 @@ Gets the quote with given ID from the server.
 
 - `quoteId`: The ID of the quote
 
-### Header parameters
+#### Header parameters
 
 - Authorization by either any of the following:
   - `Authorization: Basic [username]:[password]` (administrator)
@@ -86,7 +86,7 @@ Gets the quote with given ID from the server.
 
 Adds a new quote to the server.
 
-### Header parameters
+#### Header parameters
 
 - `Content-Type: application/json`
 - `Authorization: Basic [username]:[password]` (administrator)
@@ -109,7 +109,7 @@ Updates the content of the quote in the server.
 
 - `quoteId`: The ID of the quote to update
 
-### Header parameters
+#### Header parameters
 
 - `Content-Type: application/json`
 - `Authorization: Basic [username]:[password]` (administrator)
@@ -132,7 +132,7 @@ Removes the quote with given ID from the server.
 
 - `quoteId`: The ID of the quote to remove
 
-### Header parameters
+#### Header parameters
 
 - `Authorization: Basic [username]:[password]` (administrator)
 
