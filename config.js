@@ -8,7 +8,7 @@ const config = {
   databasePath: path.join(import.meta.dirname, databaseRelPath),
   hashSaltRounds: 10,
   itemsPerPage: process.env.ITEMS_PER_PAGE || 10,
-  port: 3000 || process.env.PORT,
+  port: process.env.PORT || 3000,
   userTokenExpirationDays: 180,
   userTokenLength: 64,
 };
