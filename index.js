@@ -6,7 +6,7 @@ import config from "./config.js";
 import middleware from "./middleware.js";
 import quotesRouter from "./routes/quotes.js";
 
-const { credentialsPath } = config;
+const { credentialsPath, publicPagesPath } = config;
 
 function isAdminSetup() {
   let credentials;
@@ -47,7 +47,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/quotes", quotesRouter);
-app.use("/public", express.static("public"));
+app.use("/public", express.static(publicPagesPath));
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
