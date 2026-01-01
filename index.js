@@ -1,9 +1,37 @@
-import express from "express";
 import cors from "cors";
+import express from "express";
+import fs from "fs";
 
 import config from "./config.js";
 import middleware from "./middleware.js";
 import quotesRouter from "./routes/quotes.js";
+
+const { credentialsPath } = config;
+
+function isAdminSetup() {
+  let credentials;
+
+  try {
+    const file = fs.readFileSync(credentialsPath);
+    credentials = JSON.parse(file);
+  } catch (err) {
+    return false;
+  }
+
+  const { admin } = credentials;
+  if (admin && admin.username && admin.password) {
+    return true;
+  }
+
+  return false;
+}
+
+if (!isAdminSetup()) {
+  console.error(
+    "[isAdminSetup] Couldn't find admin credentials. " +
+      "Try initializing credentials first: `node setup/credentials.js`."
+  );
+}
 
 const app = express();
 
